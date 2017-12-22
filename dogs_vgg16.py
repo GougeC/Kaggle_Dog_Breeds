@@ -33,7 +33,7 @@ def prepare_train_validation():
     X_validation = X_validation - mean_pixel
     return X_train, X_validation, y_train, y_validation
 X_train, X_validation, y_train, y_validation = prepare_train_validation()
-image_size = 128
+image_size = 224
 vgg_16_conv = VGG16(weights='imagenet',include_top = False)
 img_in = Input(shape = (image_size,image_size,3),name = 'image_input')
 outputVGG16 = vgg_16_conv(img_in)
