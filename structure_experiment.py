@@ -55,7 +55,7 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
     img_in = Input(shape = (image_size,image_size,3),name = 'image_input')
     outputVGG16 = vgg_16_conv(img_in)
     adapted_VGG16 = Model(input = img_in,output = outputVGG16)
-    adapted_VGG16.compile(optimizer =optimizer, loss = 'sparse_categorical_crossentropy',metrics = ['accuracy'] )
+    adapted_VGG16.compile(optimizer =optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
 
     history = adapted_VGG16.fit(X_train,y_train,epochs = 5*epochs, batch_size = batch_size,verbose = 0)
 
@@ -65,7 +65,8 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
 
 def train_eval_ResNet50(epochs,batch_size,optimizer, data):
     X_train, X_validation, y_train, y_validation = data
-    model = ResNet50(include_top=True, weights='imagenet', classes=120,input_tensor=None, input_shape=None, pooling=None,)
+    model = ResNet50(include_top=True, weights='imagenet', classes=120,input_tensor=None, input_shape=None, pooling=None)
+    model.compile(optimizer =optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
     history = model.fit(X_train,y_train,epochs = epochs,batch_size = batch_size,verbose = 0)
     metrics = model.evaluate(X_validation,y_validation)
     return history, metrics
