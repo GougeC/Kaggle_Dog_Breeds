@@ -73,7 +73,7 @@ def train_eval_ResNet50(epochs,batch_size,optimizer, data):
 if __name__ == "__main__":
     X_train, X_validation, y_train, y_validation = prepare_train_validation(224)
     mean_pixel = np.mean(X_train,axis = (0,1,2))
-    X_train_b, X_validation_b = X_train - mean_pixel, X_validation- mean_pixe
+    X_train_b, X_validation_b = X_train - mean_pixel, X_validation- mean_pixel
     data = (X_train, X_validation, y_train, y_validation)
     mean_subtracted_data =(X_train_b, X_validation_b, y_train, y_validation)
     with open("results_1.txt", "w") as res_file:
