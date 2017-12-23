@@ -50,6 +50,7 @@ def train_eval_VGG_pretrained_weights(epochs,batch_size,optimizer,data):
 
 def train_eval_VGG16(epochs,batch_size,optimizer,data):
     X_train, X_validation, y_train, y_validation = data
+    image_size = X_train[1]
     vgg_16_conv = VGG16(weights=None,include_top = True,classes = 120)
     img_in = Input(shape = (image_size,image_size,3),name = 'image_input')
     outputVGG16 = vgg_16_conv(img_in)
@@ -68,7 +69,7 @@ def train_eval_ResNet50(epochs,batch_size,optimizer, data):
     metrics = model.evaluate(X_validation,y_validation)
 
 if __name__ == "__main__":
-    data = prepare_train_validation(224)
+    data = list(prepare_train_validation(224))
     mean_pixel = np.mean(data[0],axis = (0,1,2))
     mean_subtracted_data = data
     mean_subtracted_data[0]= data[0] - mean_pixel
