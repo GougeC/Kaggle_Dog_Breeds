@@ -34,7 +34,7 @@ def prepare_train_validation(new_image_size):
 
 def train_eval_VGG_pretrained_weights(epochs,batch_size,optimizer,data):
     X_train, X_validation, y_train, y_validation = data
-    image_size = X_train[1]
+    image_size = X_train.shape[1]
     vgg_16_conv = VGG16(weights='imagenet',include_top = False)
     img_in = Input(shape = (image_size,image_size,3),name = 'image_input')
     outputVGG16 = vgg_16_conv(img_in)
@@ -50,7 +50,7 @@ def train_eval_VGG_pretrained_weights(epochs,batch_size,optimizer,data):
 
 def train_eval_VGG16(epochs,batch_size,optimizer,data):
     X_train, X_validation, y_train, y_validation = data
-    image_size = X_train[1]
+    image_size = X_train.shape[1]
     vgg_16_conv = VGG16(weights=None,include_top = True,classes = 120)
     img_in = Input(shape = (image_size,image_size,3),name = 'image_input')
     outputVGG16 = vgg_16_conv(img_in)
@@ -60,6 +60,7 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
     history = adapted_VGG16.fit(X_train,y_train,epochs = epochs, batch_size = batch_size,verbose = 0)
 
     metrics = adapted_VGG16.evaluate(X_validation,y_validation)
+    return history, metrics
 
 
 def train_eval_ResNet50(epochs,batch_size,optimizer, data):
@@ -67,13 +68,12 @@ def train_eval_ResNet50(epochs,batch_size,optimizer, data):
     model = ResNet50(include_top=True, weights='imagenet', classes=120)
     history = model.fit(X_train,y_train,epochs = epochs,batch_size = batch_size,verbose = 0)
     metrics = model.evaluate(X_validation,y_validation)
+    return history, metrics
 
 if __name__ == "__main__":
     X_train, X_validation, y_train, y_validation = prepare_train_validation(224)
     mean_pixel = np.mean(X_train,axis = (0,1,2))
-    X_train_b, X_validation_b = X_train , X_validation
-    X_train_b = X_train - mean_pixel
-    X_validation_b = X_validation - mean_pixel
+    X_train_b, X_validation_b = X_train - mean_pixel, X_validation- mean_pixe
     data = (X_train, X_validation, y_train, y_validation)
     mean_subtracted_data =(X_train_b, X_validation_b, y_train, y_validation)
     with open("results_1.txt", "w") as res_file:
