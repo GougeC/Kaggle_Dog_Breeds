@@ -69,11 +69,13 @@ def train_eval_ResNet50(epochs,batch_size,optimizer, data):
     metrics = model.evaluate(X_validation,y_validation)
 
 if __name__ == "__main__":
-    data = list(prepare_train_validation(224))
-    mean_pixel = np.mean(data[0],axis = (0,1,2))
-    mean_subtracted_data = data
-    mean_subtracted_data[0]= data[0] - mean_pixel
-    mean_subtracted_data[1]= data[1] - mean_pixel
+    X_train, X_validation, y_train, y_validation = prepare_train_validation(224)
+    mean_pixel = np.mean(X_train,axis = (0,1,2))
+    X_train_b, X_validation_b = X_train , X_validation
+    X_train_b = X_train - mean_pixel
+    X_validation_b = X_validation - mean_pixel
+    data = (X_train, X_validation, y_train, y_validation)
+    mean_subtracted_data =(X_train_b, X_validation_b, y_train, y_validation)
     with open("results_1.txt", "w") as res_file:
         res_file.write("VGG16 without pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
