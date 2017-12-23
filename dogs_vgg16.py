@@ -12,7 +12,7 @@ import cv2
 from sklearn.model_selection import train_test_split
 def prepare_train_validation():
     image_size = 224
-    labels = pd.read_csv('data/labels.csv.zip',compression='zip')
+    labels = pd.read_csv('data/data/labels.csv.zip',compression='zip')
     #converting breed categories to categorical booleans
     one_hot_labels = pd.get_dummies(labels['breed']).values
     X_raw = []
@@ -20,7 +20,7 @@ def prepare_train_validation():
 
     #loads and processes the images into image_size by image_size by 3 tensors
     for ind, row in enumerate(labels.values):
-        img = cv2.imread('data/train/{}.jpg'.format(row[0]))
+        img = cv2.imread('data/data/train/{}.jpg'.format(row[0]))
         img = cv2.resize(img,(image_size,image_size))
         X_raw.append(img)
         y_raw.append(one_hot_labels[ind,:])
@@ -28,7 +28,7 @@ def prepare_train_validation():
     X = np.array(X_raw)
     y =np.array(y_raw)
     X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.2,stratify = y, random_state=1)
-    mean_pixel = np.array([103.939, 116.779, 123.68])
+    mean_pixel = np.mean(X_train,axis = 0)
     X_train = X_train - mean_pixel
     X_validation = X_validation - mean_pixel
     return X_train, X_validation, y_train, y_validation
