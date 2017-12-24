@@ -44,9 +44,10 @@ def train_eval_VGG_pretrained_weights(epochs,batch_size,optimizer,data):
     X = Dense(120, activation='softmax', name="output")(X)
     adapted_VGG16 = Model(input = img_in,output = X)
     adapted_VGG16.compile(optimizer = optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
-    history = adapted_VGG16.fit(X_train,y_train,epochs = epocs, batch_size = batch_size,verbose = 0)
+    history = adapted_VGG16.fit(X_train,y_train,epochs = epocs, batch_size = batch_size,verbose = 1)
+    labels = adapted_VGG16.metrics_names
     metrics = adapted_VGG16.evaluate(X_validation,y_validation)
-    return history, metrics
+    return history,labels, metrics
 
 def train_eval_VGG16(epochs,batch_size,optimizer,data):
     X_train, X_validation, y_train, y_validation = data
@@ -57,8 +58,8 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
     adapted_VGG16 = Model(input = img_in,output = outputVGG16)
     adapted_VGG16.compile(optimizer =optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
 
-    history = adapted_VGG16.fit(X_train,y_train,epochs = 5*epochs, batch_size = batch_size,verbose = 0)
-
+    history = adapted_VGG16.fit(X_train,y_train,epochs = 5*epochs, batch_size = batch_size,verbose = 1)
+    labels = adapted_VGG16.metrics_names
     metrics = adapted_VGG16.evaluate(X_validation,y_validation)
     return history, metrics
 
@@ -67,9 +68,10 @@ def train_eval_ResNet50(epochs,batch_size,optimizer, data):
     X_train, X_validation, y_train, y_validation = data
     model = ResNet50(include_top=True, weights='imagenet', classes=120,input_tensor=None, input_shape=None, pooling=None)
     model.compile(optimizer =optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
-    history = model.fit(X_train,y_train,epochs = epochs,batch_size = batch_size,verbose = 0)
+    history = model.fit(X_train,y_train,epochs = epochs,batch_size = batch_size,verbose = 1)
     metrics = model.evaluate(X_validation,y_validation)
-    return history, metrics
+    labels = model.metrics_names
+    return history,labels, metrics
 
 if __name__ == "__main__":
     X_train, X_validation, y_train, y_validation = prepare_train_validation(224)
@@ -80,15 +82,27 @@ if __name__ == "__main__":
     with open("results_1.txt", "w") as res_file:
         res_file.write("VGG16 without pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
-        h1,m1 = train_eval_VGG16(50,19,sgd,mean_subtracted_data)
-        res_file.write(m1)
-        res_file.write(h1)
+        h1,l1,m1 = train_eval_VGG16(50,19,sgd,mean_subtracted_data)
+        for label, metric in zip(l1,m1)
+            res_file.write(str(label)+' ')
+            res_file.write(str(metric)+'\n')
+        for key,value in h1.items:
+            res_file.write(str(key)+ ": ")
+            res_file.write(str(value+ '\n'))
         res_file.write("VGG16 with pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
-        h2,m2 = train_eval_VGG_pretrained_weights(50,19,sgd,mean_subtracted_data)
-        res_file.write(m2)
-        res_file.write(h2)
+        h2,,l2,m2 = train_eval_VGG_pretrained_weights(50,19,sgd,mean_subtracted_data)
+        for label, metric in zip(l2,m2)
+            res_file.write(str(label)+' ')
+            res_file.write(str(metric)+'\n')
+        for key,value in h2.items:
+            res_file.write(str(key)+ ": ")
+            res_file.write(str(value+ '\n'))
         res_file.write("ResNet50 pretrained:")
-        h3,m3train_eval_ResNet50(50,19,sgd,data)
-        res_file.write(m3)
-        res_file.write(h3)
+        h3,,l3,m3 = train_eval_ResNet50(50,19,sgd,data)
+        for label, metric in zip(l3,m3)
+            res_file.write(str(label)+' ')
+            res_file.write(str(metric)+'\n')
+        for key,value in h3.items:
+            res_file.write(str(key)+ ": ")
+            res_file.write(str(value+ '\n'))

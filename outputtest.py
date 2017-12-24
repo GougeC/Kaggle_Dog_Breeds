@@ -58,9 +58,9 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
     adapted_VGG16.compile(optimizer =optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
 
     history = adapted_VGG16.fit(X_train,y_train,epochs = 5*epochs, batch_size = batch_size,verbose = 1)
-
+    labels = adapted_VGG16.metrics_names
     metrics = adapted_VGG16.evaluate(X_validation,y_validation)
-    return history, metrics
+    return lables, metrics
 
 
 def train_eval_ResNet50(epochs,batch_size,optimizer, data):
@@ -80,6 +80,10 @@ if __name__ == "__main__":
     with open("output_test", "w") as res_file:
         res_file.write("VGG16 without pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
-        h1,m1 = train_eval_VGG16(5,19,sgd,mean_subtracted_data)
-        res_file.write(m1)
-        res_file.write(h1.history)
+        h1,l1,m1 = train_eval_VGG16(1,19,sgd,mean_subtracted_data)
+        for label, metric in zip(l1,m1)
+            res_file.write(str(label)+' ')
+            res_file.write(str(metric)+'\n')
+        for key,value in h1.items:
+            res_file.write(str(key)+ ": ")
+            res_file.write(str(value+ '\n'))
