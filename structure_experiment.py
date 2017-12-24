@@ -58,10 +58,10 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
     adapted_VGG16 = Model(input = img_in,output = outputVGG16)
     adapted_VGG16.compile(optimizer =optimizer, loss = 'categorical_crossentropy',metrics = ['accuracy'] )
 
-    history = adapted_VGG16.fit(X_train,y_train,epochs = 5*epochs, batch_size = batch_size,verbose = 1)
+    history = adapted_VGG16.fit(X_train,y_train,epochs = epochs, batch_size = batch_size,verbose = 1)
     labels = adapted_VGG16.metrics_names
     metrics = adapted_VGG16.evaluate(X_validation,y_validation)
-    return history, metrics
+    return history, labels, metrics
 
 
 def train_eval_ResNet50(epochs,batch_size,optimizer, data):
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     with open("results_1.txt", "w") as res_file:
         res_file.write("VGG16 without pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
-        h1,l1,m1 = train_eval_VGG16(50,19,sgd,mean_subtracted_data)
+        h1,l1,m1 = train_eval_VGG16(100,19,sgd,mean_subtracted_data)
         for label, metric in zip(l1,m1):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
@@ -91,7 +91,7 @@ if __name__ == "__main__":
             res_file.write(str(value+ '\n'))
         res_file.write("VGG16 with pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
-        h2,,l2,m2 = train_eval_VGG_pretrained_weights(50,19,sgd,mean_subtracted_data)
+        h2,,l2,m2 = train_eval_VGG_pretrained_weights(100,19,sgd,mean_subtracted_data)
         for label, metric in zip(l2,m2):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
@@ -99,7 +99,7 @@ if __name__ == "__main__":
             res_file.write(str(key)+ ": ")
             res_file.write(str(value+ '\n'))
         res_file.write("ResNet50 pretrained:")
-        h3,,l3,m3 = train_eval_ResNet50(50,19,sgd,data)
+        h3,,l3,m3 = train_eval_ResNet50(100,19,sgd,data)
         for label, metric in zip(l3,m3):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')

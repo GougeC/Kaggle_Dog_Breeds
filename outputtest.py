@@ -60,7 +60,7 @@ def train_eval_VGG16(epochs,batch_size,optimizer,data):
     history = adapted_VGG16.fit(X_train,y_train,epochs = 5*epochs, batch_size = batch_size,verbose = 1)
     labels = adapted_VGG16.metrics_names
     metrics = adapted_VGG16.evaluate(X_validation,y_validation)
-    return lables, metrics
+    return history,labels, metrics
 
 
 def train_eval_ResNet50(epochs,batch_size,optimizer, data):
