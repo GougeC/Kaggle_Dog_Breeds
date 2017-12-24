@@ -83,7 +83,7 @@ if __name__ == "__main__":
         res_file.write("VGG16 without pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
         h1,l1,m1 = train_eval_VGG16(50,19,sgd,mean_subtracted_data)
-        for label, metric in zip(l1,m1)
+        for label, metric in zip(l1,m1):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
         for key,value in h1.items:
@@ -92,7 +92,7 @@ if __name__ == "__main__":
         res_file.write("VGG16 with pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
         h2,,l2,m2 = train_eval_VGG_pretrained_weights(50,19,sgd,mean_subtracted_data)
-        for label, metric in zip(l2,m2)
+        for label, metric in zip(l2,m2):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
         for key,value in h2.items:
@@ -100,7 +100,7 @@ if __name__ == "__main__":
             res_file.write(str(value+ '\n'))
         res_file.write("ResNet50 pretrained:")
         h3,,l3,m3 = train_eval_ResNet50(50,19,sgd,data)
-        for label, metric in zip(l3,m3)
+        for label, metric in zip(l3,m3):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
         for key,value in h3.items:

@@ -81,7 +81,7 @@ if __name__ == "__main__":
         res_file.write("VGG16 without pretrained weights:")
         sgd = SGD(lr=0.01, decay=1e-6)
         h1,l1,m1 = train_eval_VGG16(1,19,sgd,mean_subtracted_data)
-        for label, metric in zip(l1,m1)
+        for label, metric in zip(l1,m1):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
         for key,value in h1.items:
