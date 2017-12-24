@@ -19,7 +19,6 @@ def prepare_train_validation(new_image_size):
     one_hot_labels = pd.get_dummies(labels['breed']).values
     X_raw = []
     y_raw = []
-
     #loads and processes the images into image_size by image_size by 3 tensors
     for ind, row in enumerate(labels.values):
         img = cv2.imread('data/data/train/{}.jpg'.format(row[0]))
@@ -86,7 +85,7 @@ if __name__ == "__main__":
         for label, metric in zip(l1,m1):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
-        for key,value in h1.items:
+        for key,value in h1.history.items():
             res_file.write(str(key)+ ": ")
             res_file.write(str(value+ '\n'))
         res_file.write("VGG16 with pretrained weights:")
@@ -95,7 +94,7 @@ if __name__ == "__main__":
         for label, metric in zip(l2,m2):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
-        for key,value in h2.items:
+        for key,value in h2.history.items():
             res_file.write(str(key)+ ": ")
             res_file.write(str(value+ '\n'))
         res_file.write("ResNet50 pretrained:")
@@ -103,6 +102,6 @@ if __name__ == "__main__":
         for label, metric in zip(l3,m3):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
-        for key,value in h3.items:
+        for key,value in h3.history.items():
             res_file.write(str(key)+ ": ")
             res_file.write(str(value+ '\n'))

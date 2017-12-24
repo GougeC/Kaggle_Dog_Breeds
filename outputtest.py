@@ -84,6 +84,6 @@ if __name__ == "__main__":
         for label, metric in zip(l1,m1):
             res_file.write(str(label)+' ')
             res_file.write(str(metric)+'\n')
-        for key,value in h1.items:
+        for key,value in h1.history.items:
             res_file.write(str(key)+ ": ")
             res_file.write(str(value+ '\n'))
