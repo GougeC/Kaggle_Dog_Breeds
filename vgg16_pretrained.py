@@ -35,7 +35,7 @@ x_test = []
 
 i = 0
 for path, breed in tqdm(labels.values):
-    img = cv2.imread('~dogs/Kaggle_Dog_Breeds/data/data/train/{}.jpg'.format(path))
+    img = cv2.imread('~/ogs/Kaggle_Dog_Breeds/data/data/train/{}.jpg'.format(path))
     label = oh_labels[i]
     x_train.append(cv2.resize(img,(img_size,img_size)))
     y_train.append(label)
@@ -63,7 +63,7 @@ for layer in base_model.layers:
 model.compile(loss = 'categorical_crossentropy',optimizer = 'adam',metrics = ['accuracy'])
 callbacks_list = [keras.callbacks.EarlyStopping(monitor = 'val_acc',patience = 3,verbose = 1)]
 
-model.fit(X_train,Y_train,epochs = 8, validation_data= (X_valid,Y_valid),verbose = 1)
+model.fit(X_train,Y_train,epochs = 25, validation_data= (X_valid,Y_valid),verbose = 1)
 
 preds = model.predict(x_test,verbose = 1)
 
