@@ -1,4 +1,4 @@
-#Dog Breed Identification
+# Dog Breed Identification
 
 This repository is my work for the [Dog Breed Identification](https://www.kaggle.com/c/dog-breed-identification) competition from Kaggle.
 
