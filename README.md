@@ -7,3 +7,7 @@ My strategy for this competition is to use CNN pretrained on the imagenet datase
 The process currently outlined in the notebook is my experiment on deciding between a network with global max pooling after the pretrained layers and a network without that pooling layer, but with regularization in the form of dropout. Before the experiment listed out in the notebook I did play around with some different pretrained base networks such as VGG19 and VGG16 and I also tried out some different optimizers, but I did not include that in this notebook.
 
 The results of this model are currently about 92 - 95% top 5 accuracy with about 70% accuracy in predicting the exact breed in the image. My best model has so far been the pretrained Inception V3 network with dropout .3 before two fully connected layers and then the output layer. The next step for this project on my todo list is to run an organized experiment on how big these two fully connected layers should be, as right now they are fairly arbitrarily sized. Additionally I would like to experiment with fine tuning the last convolutional blocks in the base layers so that the features extracted can be more relavent to this specific problem. 
+
+I've also included some pictures of dogs that I like and dogs that I know in real life as sanity checks for this project and because I like dogs.
+
+<img src="demo_dogs/athena.jpg" height="250"> <img src="demo_dogs/jack.png" height="250"> <img src="demo_dogs/izzy.jpg" height="250">
